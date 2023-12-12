@@ -1,6 +1,8 @@
-﻿using HarmonyLib;
+﻿using BepInEx;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -99,6 +101,11 @@ namespace SailwindModdingHelper
                     return child;
             }
             return null;
+        }
+
+        public static string GetFolderLocation(this PluginInfo pluginInfo)
+        {
+            return Directory.GetParent(pluginInfo.Location).FullName;
         }
     }
 }
