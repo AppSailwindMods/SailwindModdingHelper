@@ -1,0 +1,25 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{97B1B74B-4C9B-4456-9082-8D3D7E262F11}") = "SailwindModdingHelper", "SailwindModdingHelper\SailwindModdingHelper.csproj", "{88E8FAB5-C1EE-48B5-A2B8-D557617D287F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{88E8FAB5-C1EE-48B5-A2B8-D557617D287F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88E8FAB5-C1EE-48B5-A2B8-D557617D287F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88E8FAB5-C1EE-48B5-A2B8-D557617D287F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88E8FAB5-C1EE-48B5-A2B8-D557617D287F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D3D69E50-11FB-47A4-9868-FC4122913897}
+	EndGlobalSection
+EndGlobal
