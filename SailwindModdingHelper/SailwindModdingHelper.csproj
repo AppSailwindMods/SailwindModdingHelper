@@ -104,7 +104,7 @@
     <Compile Include="GameAssets.cs" />
     <Compile Include="GameCanvas.cs" />
     <Compile Include="GameEvents.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="SailwindModdingHelperMain.cs" />
     <Compile Include="ModButton.cs" />
     <Compile Include="ModLoading.cs" />
     <Compile Include="ModLogger.cs" />
