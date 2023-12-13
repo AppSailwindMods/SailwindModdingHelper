@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BepInEx;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,12 +12,12 @@ namespace SailwindModdingHelper
 {
     public static class ModSave
     {
-        public static void Save(string modId, object data)
+        public static void Save(PluginInfo pluginInfo, object data)
         {
             if (!GameState.playing) return;
             Directory.CreateDirectory(GetSaveDirectory(SaveSlots.currentSlot));
 
-            FileStream stream = File.Create(GetSaveModFile(SaveSlots.currentSlot, modId));
+            FileStream stream = File.Create(GetSaveModFile(SaveSlots.currentSlot, pluginInfo));
             BinaryFormatter formatter = new BinaryFormatter();
             try
             {
@@ -24,32 +25,33 @@ namespace SailwindModdingHelper
             }
             catch (Exception ex)
             {
-                ModLogger.Error(modId, $"Could not serialize data '{modId}'");
-                ModLogger.Error(modId, ex.Message);
+                ModLogger.LogError(pluginInfo, $"Could not serialize data '{pluginInfo.Metadata.GUID}'");
+                ModLogger.LogError(pluginInfo, ex.Message);
             }
             stream.Close();
         }
 
-        public static object Load(string modId)
+        public static bool Load(PluginInfo pluginInfo, out object loadedObject)
         {
-            if (!GameState.playing)
+            loadedObject = null;
+            if (!GameState.playing && !GameState.currentlyLoading)
             {
-                ModLogger.Error(modId, $"Trying to load mod save while in main menu '{modId}'");
-                return null;
+                ModLogger.LogError(pluginInfo, $"Trying to load mod save while in main menu '{pluginInfo.Metadata.GUID}'");
+                return false;
             }
-            if (!File.Exists(GetSaveModFile(SaveSlots.currentSlot, modId)))
+            if (!File.Exists(GetSaveModFile(SaveSlots.currentSlot, pluginInfo)))
             {
-                ModLogger.Error(modId, $"Could not find mod save file for '{modId}'");
-                return null;
+                ModLogger.LogError(pluginInfo, $"Could not find mod save file for '{pluginInfo.Metadata.GUID}'");
+                return false;
             }
 
-            FileStream stream = File.OpenRead(GetSaveModFile(SaveSlots.currentSlot, modId));
+            FileStream stream = File.OpenRead(GetSaveModFile(SaveSlots.currentSlot, pluginInfo));
 
             if (stream.Length <= 0)
             {
                 stream.Close();
-                ModLogger.Error(modId, $"File stream length is 0 '{modId}'");
-                return null;
+                ModLogger.LogError(pluginInfo, $"File stream length is 0 '{pluginInfo.Metadata.GUID}'");
+                return false;
             }
 
             try
@@ -57,20 +59,30 @@ namespace SailwindModdingHelper
                 BinaryFormatter formatter = new BinaryFormatter();
                 object value = formatter.Deserialize(stream);
                 stream.Close();
-                return value;
+                loadedObject = value;
+                return true;
             }
             catch (Exception ex)
             {
                 stream.Close();
-                ModLogger.Error(modId, $"Could not deserialize mod save for '{modId}'");
-                ModLogger.Error(modId, ex.Message);
-                return null;
+                ModLogger.LogError(pluginInfo, $"Could not deserialize mod save for '{pluginInfo.Metadata.GUID}'");
+                ModLogger.LogError(pluginInfo, ex.Message);
+                return false;
             }
         }
 
-        internal static string GetSaveModFile(int slot, string modId)
+        public static bool Load<T>(PluginInfo pluginInfo, out T loadedObject)
         {
-            return Path.Combine(GetSaveDirectory(slot), $"{modId}.save");
+            loadedObject = default;
+            var result = Load(pluginInfo, out var obj);
+            if(result)
+                loadedObject = (T)obj;
+            return result;
+        }
+
+        internal static string GetSaveModFile(int slot, PluginInfo pluginInfo)
+        {
+            return Path.Combine(GetSaveDirectory(slot), $"{pluginInfo.Metadata.GUID}.save");
         }
 
         internal static string GetSaveDirectory(int slot)

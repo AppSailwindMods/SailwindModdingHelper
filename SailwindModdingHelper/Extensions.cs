@@ -18,6 +18,16 @@ namespace SailwindModdingHelper
             return Traverse.Create(obj).Field(field).GetValue();
         }
 
+        public static object GetPrivateField(Type type, string field)
+        {
+            return Traverse.Create(type).Field(field).GetValue();
+        }
+
+        public static T GetPrivateField<T>(Type type, string field)
+        {
+            return (T)GetPrivateField(type, field);
+        }
+
         public static T GetPrivateField<T>(this object obj, string field)
         {
             return (T)obj.GetPrivateField(field);

@@ -97,7 +97,7 @@ namespace SailwindModdingHelper
             }
         }
 
-        [HarmonyPatch(typeof(StartMenu), "LoadGame")]
+        [HarmonyPatch(typeof(SaveLoadManager), "LoadGame")]
         private static class SaveLoad
         {
             [HarmonyPostfix]
@@ -107,7 +107,7 @@ namespace SailwindModdingHelper
             }
         }
 
-        [HarmonyPatch(typeof(SaveLoadManager), "SaveGame")]
+        [HarmonyPatch(typeof(SaveLoadManager), "SaveModData")]
         private static class SaveSave
         {
             [HarmonyPostfix]

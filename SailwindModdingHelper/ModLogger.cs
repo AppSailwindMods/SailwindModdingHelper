@@ -1,31 +1,49 @@
-﻿namespace SailwindModdingHelper
+﻿using BepInEx;
+using BepInEx.Logging;
+
+namespace SailwindModdingHelper
 {
     public static class ModLogger
     {
         public static event LogEventHandler OnLog;
 
 
-        private static void Log(LogType logType, string modId, string message)
+        public static void Log(LogLevel logLevel, PluginInfo pluginInfo, object message)
         {
-            OnLog?.Invoke(logType, modId, message);
+            OnLog?.Invoke(logLevel, pluginInfo, message);
         }
 
-        public static void Log(string modId, string message)
+        public static void LogFatal(PluginInfo pluginInfo, object data)
         {
-            Log(LogType.Log, modId, message);
+            Log(LogLevel.Fatal, pluginInfo, data);
         }
 
-        public static void Error(string modId, string message)
+        public static void LogError(PluginInfo pluginInfo, object data)
         {
-            Log(LogType.Error, modId, message);
+            Log(LogLevel.Error, pluginInfo, data);
         }
 
-        public delegate void LogEventHandler(LogType logType, string modId, string message);
+        public static void LogWarning(PluginInfo pluginInfo, object data)
+        {
+            Log(LogLevel.Warning, pluginInfo, data);
+        }
 
-    }
-    public enum LogType
-    {
-        Log,
-        Error
+        public static void LogMessage(PluginInfo pluginInfo, object data)
+        {
+            Log(LogLevel.Message, pluginInfo, data);
+        }
+
+        public static void LogInfo(PluginInfo pluginInfo, object data)
+        {
+            Log(LogLevel.Info, pluginInfo, data);
+        }
+
+        public static void LogDebug(PluginInfo pluginInfo, object data)
+        {
+            Log(LogLevel.Debug, pluginInfo, data);
+        }
+
+        public delegate void LogEventHandler(LogLevel logType, PluginInfo pluginInfo, object message);
+
     }
 }

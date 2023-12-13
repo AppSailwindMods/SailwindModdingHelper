@@ -3,6 +3,7 @@ using BepInEx.Logging;
 #elif UMM
 using UnityModManagerNet;
 #endif
+using BepInEx.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,29 +18,13 @@ namespace SailwindModdingHelper
     {
         public static void LoadMod()
         {
-            ModLogger.OnLog += (logType, mod, message) =>
+            ModLogger.OnLog += (logLevel, mod, message) =>
             {
-#if UMM
-                string prefix = $"[{mod.Info.Id}] ";
-#elif BepInEx
-                string prefix = $"[{mod}] ";
-#endif
-                if (logType == LogType.Log)
-                {
-#if UMM
-                    UnityModManager.Logger.Log(message, prefix);
-#elif BepInEx
-                    Main.logSource.LogInfo(prefix + message);
-#endif
-                }
-                else if (logType == LogType.Error)
-                {
-#if UMM
-                    UnityModManager.Logger.Error(message, prefix);
-#elif BepInEx
-                    Main.logSource.LogError(prefix + message);
-#endif
-                }
+                var manualLogSource = BepInEx.Logging.Logger.CreateLogSource(mod.Metadata.Name);
+
+                manualLogSource.Log(logLevel, message);
+
+                BepInEx.Logging.Logger.Sources.Remove(manualLogSource);
             };
 
             GameEvents.OnGameStart += (_, __) =>
