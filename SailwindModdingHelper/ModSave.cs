@@ -85,7 +85,7 @@ namespace SailwindModdingHelper
             return Path.Combine(GetSaveDirectory(slot), $"{pluginInfo.Metadata.GUID}.save");
         }
 
-        internal static string GetSaveDirectory(int slot)
+        public static string GetSaveDirectory(int slot)
         {
             return Path.Combine(Application.persistentDataPath, $"slot{slot}");
         }

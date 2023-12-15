@@ -16,6 +16,7 @@ namespace SailwindModdingHelper
         public static event EventHandler OnGameUnpause;
 
         public static event SaveSlotEventHandler OnSaveLoad;
+        public static event SaveSlotEventHandler OnSaveLoadPost;
         public static event SaveSlotEventHandler OnNewGame;
         public static event GameSaveEventHandler OnGameSave;
 
@@ -104,6 +105,7 @@ namespace SailwindModdingHelper
             public static void Postfix(StartMenu __instance)
             {
                 OnSaveLoad?.Invoke(__instance, new SaveSlotEventArgs(SaveSlots.currentSlot));
+                OnSaveLoadPost?.Invoke(__instance, new SaveSlotEventArgs(SaveSlots.currentSlot));
             }
         }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +6,19 @@ using UnityEngine;
 
 namespace SailwindModdingHelper
 {
+    public sealed class RegionData
+    {
+        public Vector3 globePosition;
+        public Vector3 globeSize;
+        public Bounds globeBounds => new Bounds(globePosition, globeSize);
+
+        public RegionData(Vector3 globePosition, Vector3 globeSize)
+        {
+            this.globePosition = globePosition;
+            this.globeSize = globeSize;
+        }
+    }
+
     public static class GameAssets
     {
         public static Font ArealFont { get; internal set; }
@@ -22,6 +34,14 @@ namespace SailwindModdingHelper
         /// Region for Fire Fish Lagoon
         /// </summary>
         public static Region LagoonRegion { get; internal set; }
+
+        public static RegionData AlAnkhRegionData { get; internal set; }
+        public static RegionData EmeraldRegionData { get; internal set; }
+        /// <summary>
+        /// Region Data for Aestrin
+        /// </summary>
+        public static RegionData MediRegionData { get; internal set; }
+        public static RegionData OceanRegionData { get; internal set; }
 
         public static StartMenu StartMenu { get; internal set; }
 

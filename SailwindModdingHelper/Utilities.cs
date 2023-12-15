@@ -10,7 +10,7 @@ namespace SailwindModdingHelper
     public static class Utilities
     {
         private static CharacterController characterController;
-        private static Transform playerTransform;
+        internal static Transform playerTransform;
         public static CharacterController CharacterController => characterController;
         public static Transform PlayerTransform => playerTransform;
 
@@ -19,7 +19,6 @@ namespace SailwindModdingHelper
         internal static void SetPlayerController(CharacterController characterController)
         {
             Utilities.characterController = characterController;
-            playerTransform = characterController.transform;
         }
 
         public static IslandSceneryScene GetNearestIslandSceneryScene(Vector3 position)
@@ -41,6 +40,11 @@ namespace SailwindModdingHelper
         public static Vector3 GetPlayerGlobeCoords()
         {
             return FloatingOriginManager.instance.GetGlobeCoords(playerTransform);
+        }
+
+        public static Vector3 GetGlobeCoords(Vector3 position)
+        {
+            return (position - FloatingOriginManager.instance.outCurrentOffset - FloatingOriginManager.instance.GetPrivateField<Vector3>("globeOffset")) / 9000f;
         }
 
         public static T Next<T>(this T src) where T : Enum
