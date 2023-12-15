@@ -53,6 +53,7 @@ namespace SailwindModdingHelper
             "wine",
             "coconut wine",
             "honey beer",
+            "mead",
             "rice beer"
         };
 
