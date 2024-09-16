@@ -1,8 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using BepInEx.Bootstrap;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace SailwindModdingHelper
 {
@@ -47,15 +52,7 @@ namespace SailwindModdingHelper
 
         public static Font ImmortalFont { get; internal set; }
 
-        public static IReadOnlyList<string> AlcoholNames { get; } = new List<string>()
-        {
-            "rum",
-            "wine",
-            "coconut wine",
-            "honey beer",
-            "mead",
-            "rice beer"
-        };
+        public static IReadOnlyList<string> AlcoholNames { get; private set; }
 
         public static IReadOnlyList<SailwindPrefab> Prefabs { get; private set; }
 
@@ -83,6 +80,36 @@ namespace SailwindModdingHelper
                 prefabs.Add(new SailwindPrefab(obj.name, name, obj));
             }
             Prefabs = prefabs;
+        }
+
+        internal static void LoadAlcohols()
+        {
+            var alcoholNames = new List<string>();
+            var alcoholFiles = Utilities.GetFileInAllPlugins("alcohols", "json");
+            foreach(var alcoholFile in alcoholFiles)
+            {
+                try
+                {
+                    var fileAlcoholNames = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(alcoholFile.filePath));
+
+                    foreach (var name in fileAlcoholNames)
+                    {
+                        if (!string.IsNullOrEmpty(name.ToLower()))
+                        {
+                            if (!alcoholNames.Contains(name.ToLower()))
+                                alcoholNames.Add(name.ToLower());
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    SailwindModdingHelperMain.instance.Info.LogFatal($"Could not load file '{Path.GetFileName(alcoholFile.filePath)}' for mod '{alcoholFile.pluginInfo.Metadata.GUID}'");
+                    SailwindModdingHelperMain.instance.Info.LogFatal(ex);
+                }
+            }
+
+            AlcoholNames = alcoholNames;
+            SailwindModdingHelperMain.instance.Info.LogInfo("Loaded all alcohols");
         }
 
         /// <summary>

@@ -1,1 +1,0 @@
-xcopy /y SailwindModdingHelper.dll "F:\SteamLibrary\steamapps\common\Sailwind\BepInEx\plugins\SailwindModdingHelper"

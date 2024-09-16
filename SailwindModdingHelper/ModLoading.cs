@@ -33,6 +33,12 @@ namespace SailwindModdingHelper
                 Utilities.playerTransform = Sun.sun.GetPrivateField<Transform>("player");
             };
 
+            // Load Alcohols
+            GameEvents.OnGameStart += (_, __) =>
+            {
+                GameAssets.LoadAlcohols();
+            };
+
             GameEvents.OnGameStart += (_, __) =>
             {
                 GameAssets.ArealFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
@@ -43,10 +49,14 @@ namespace SailwindModdingHelper
                 GameAssets.MediRegion = GameObject.Find("Region Medi").GetComponent<Region>();
                 GameAssets.MediEastRegion = GameObject.Find("Region Medi East").GetComponent<Region>();
 
-                GameAssets.AlAnkhRegionData = new RegionData(new Vector3(-4.95f, 0, 31.07f), new Vector3(1.1f, 0, 0.94f));
+                /*GameAssets.AlAnkhRegionData = new RegionData(new Vector3(-4.95f, 0, 31.07f), new Vector3(1.1f, 0, 0.94f));
                 GameAssets.EmeraldRegionData = new RegionData(new Vector3(4.765f, 0, 31.495f), new Vector3(1.37f, 0, 1.31f));
                 GameAssets.MediRegionData = new RegionData(new Vector3(.72f, 0, 40.395f), new Vector3(1.12f, 0, 1.11f));
-                GameAssets.OceanRegionData = new RegionData(new Vector3(0, 0, 36f), new Vector3(11.66f, 0, 11.6f));
+                GameAssets.OceanRegionData = new RegionData(new Vector3(0, 0, 36f), new Vector3(11.66f, 0, 11.6f));*/
+                GameAssets.AlAnkhRegionData = Utilities.LoadRegionData("AlAnkh");
+                GameAssets.EmeraldRegionData = Utilities.LoadRegionData("Emerald");
+                GameAssets.MediRegionData = Utilities.LoadRegionData("Medi");
+                GameAssets.OceanRegionData = Utilities.LoadRegionData("PlayableArea");
 
                 GameAssets.StartMenu = GameObject.FindObjectOfType<StartMenu>();
 

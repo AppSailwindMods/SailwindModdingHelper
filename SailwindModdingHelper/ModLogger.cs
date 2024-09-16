@@ -13,32 +13,32 @@ namespace SailwindModdingHelper
             OnLog?.Invoke(logLevel, pluginInfo, message);
         }
 
-        public static void LogFatal(PluginInfo pluginInfo, object data)
+        public static void LogFatal(this PluginInfo pluginInfo, object data)
         {
             Log(LogLevel.Fatal, pluginInfo, data);
         }
 
-        public static void LogError(PluginInfo pluginInfo, object data)
+        public static void LogError(this PluginInfo pluginInfo, object data)
         {
             Log(LogLevel.Error, pluginInfo, data);
         }
 
-        public static void LogWarning(PluginInfo pluginInfo, object data)
+        public static void LogWarning(this PluginInfo pluginInfo, object data)
         {
             Log(LogLevel.Warning, pluginInfo, data);
         }
 
-        public static void LogMessage(PluginInfo pluginInfo, object data)
+        public static void LogMessage(this PluginInfo pluginInfo, object data)
         {
             Log(LogLevel.Message, pluginInfo, data);
         }
 
-        public static void LogInfo(PluginInfo pluginInfo, object data)
+        public static void LogInfo(this PluginInfo pluginInfo, object data)
         {
             Log(LogLevel.Info, pluginInfo, data);
         }
 
-        public static void LogDebug(PluginInfo pluginInfo, object data)
+        public static void LogDebug(this PluginInfo pluginInfo, object data)
         {
             Log(LogLevel.Debug, pluginInfo, data);
         }

@@ -1,6 +1,11 @@
-﻿using System;
+﻿using BepInEx;
+using BepInEx.Bootstrap;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -54,6 +59,64 @@ namespace SailwindModdingHelper
             T[] Arr = (T[])Enum.GetValues(src.GetType());
             int j = Array.IndexOf<T>(Arr, src) + 1;
             return (Arr.Length == j) ? Arr[0] : Arr[j];
+        }
+
+        public struct PluginFile
+        {
+            public readonly PluginInfo pluginInfo;
+            public readonly string filePath;
+
+            public PluginFile(PluginInfo pluginInfo, string filePath)
+            {
+                this.pluginInfo = pluginInfo;
+                this.filePath = filePath;
+            }
+        }
+
+        public static List<PluginFile> GetFileInAllPlugins(string fileName, string filePath, params string[] extraFilePaths)
+        {
+            var files = new List<PluginFile>();
+            foreach (var plugin in Chainloader.PluginInfos)
+            {
+                var directory = plugin.Value.GetFolderLocation();
+                {
+                    var fullPath = Path.Combine(directory, fileName + "." + filePath);
+                    if (File.Exists(fullPath))
+                    {
+                        files.Add(new PluginFile(plugin.Value, fullPath));
+                    }
+                }
+                foreach (var path in extraFilePaths)
+                {
+                    var fullPath = Path.Combine(directory, fileName+"."+path);
+                    if (File.Exists(fullPath))
+                    {
+                        files.Add(new PluginFile(plugin.Value, fullPath));
+                    }
+                }
+            }
+            return files;
+        }
+
+        public static RegionData LoadRegionData(string regionName)
+        {
+            var regionFilePath = Path.Combine(Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName, "regions", regionName+".json");
+            if (!File.Exists(regionFilePath))
+            {
+                SailwindModdingHelperMain.instance.Info.LogError($"Could not load region data for region '{regionName}', could not locate file '{regionFilePath}'");
+                return null;
+            }
+
+            var data = JsonConvert.DeserializeObject<float[]>(File.ReadAllText(regionFilePath));
+
+            if(data.Length < 4)
+            {
+                SailwindModdingHelperMain.instance.Info.LogError($"Could not load region data for region '{regionName}', missing parameters");
+                return null;
+            }
+
+            SailwindModdingHelperMain.instance.Info.LogInfo($"Loaded region '{regionName}'");
+            return new RegionData(new Vector3(data[0], 0, data[1]), new Vector3(data[2], 0, data[3]));
         }
     }
 }

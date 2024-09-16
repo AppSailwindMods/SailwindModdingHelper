@@ -1,2 +1,0 @@
-if not exist "F:\SteamLibrary\steamapps\common\Sailwind\BepInEx\plugins\SailwindModdingHelper" mkdir "F:\SteamLibrary\steamapps\common\Sailwind\BepInEx\plugins\SailwindModdingHelper"
-del /q "F:\SteamLibrary\steamapps\common\Sailwind\BepInEx\plugins\SailwindModdingHelper\SailwindModdingHelper.dll"
