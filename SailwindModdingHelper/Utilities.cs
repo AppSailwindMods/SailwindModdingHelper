@@ -118,5 +118,16 @@ namespace SailwindModdingHelper
             SailwindModdingHelperMain.instance.Info.LogInfo($"Loaded region '{regionName}'");
             return new RegionData(new Vector3(data[0], 0, data[1]), new Vector3(data[2], 0, data[3]));
         }
+
+        public static AssetBundle LoadAssetBundle(string filePath)
+        {
+            var bundle = AssetBundle.LoadFromFile(filePath);
+            if (!bundle)
+            {
+                SailwindModdingHelperMain.instance.Info.LogError($"Could not load bundle at {filePath}");
+                return null;
+            }
+            return bundle;
+        }
     }
 }

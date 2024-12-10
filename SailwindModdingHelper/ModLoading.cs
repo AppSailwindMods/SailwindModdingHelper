@@ -37,6 +37,7 @@ namespace SailwindModdingHelper
             GameEvents.OnGameStart += (_, __) =>
             {
                 GameAssets.LoadAlcohols();
+                SailwindIslands.LoadAllIslands();
             };
 
             GameEvents.OnGameStart += (_, __) =>

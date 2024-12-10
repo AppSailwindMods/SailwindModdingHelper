@@ -11,7 +11,7 @@ namespace SailwindModdingHelper
     {
         public const string GUID = "com.app24.sailwindmoddinghelper";
         public const string NAME = "Sailwind Modding Helper";
-        public const string VERSION = "2.1.0";
+        public const string VERSION = "2.2.0";
 
         internal static ManualLogSource logSource;
 

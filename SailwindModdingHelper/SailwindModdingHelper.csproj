@@ -125,11 +125,16 @@
     <Compile Include="GameAssets.cs" />
     <Compile Include="GameCanvas.cs" />
     <Compile Include="GameEvents.cs" />
+    <Compile Include="Patches\ShopItemSpawnPatches.cs" />
+    <Compile Include="SailwindIslands.cs" />
     <Compile Include="SailwindModdingHelperMain.cs" />
     <Compile Include="ModButton.cs" />
     <Compile Include="ModLoading.cs" />
     <Compile Include="ModLogger.cs" />
     <Compile Include="ModSave.cs" />
+    <Compile Include="Shops\ShopItemSpawnerData.cs" />
+    <Compile Include="Shops\ShopItemSpawnerHandler.cs" />
+    <Compile Include="Shops\SMShopItemSpawner.cs" />
     <Compile Include="UIManager.cs" />
     <Compile Include="Utilities.cs" />
   </ItemGroup>
@@ -142,6 +147,9 @@
     <Content Include="regions\**">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ShipItems\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
